@@ -17,22 +17,18 @@ import java.util.ArrayList;
 
 public class DetectionIntent extends IntentService {
     protected static final String TAG = "detection_is";
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * @param name Used to name the worker thread, important only for debugging.
-     */
-    public DetectionIntent(String name) {
+
+    public DetectionIntent() {
         super(TAG);
     }
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
-        Intent localintent = new Intent(AppConstant.BroadCastIntent);
+        Intent localintent = new Intent(AppConstant.BROADCAST_ACTION);
 
         ArrayList<DetectedActivity> detectedActivities = (ArrayList) result.getProbableActivities();
-        localintent.putExtra(AppConstant.ActivityExtra,detectedActivities);
+        localintent.putExtra(AppConstant.ACTIVITY_EXTRA,detectedActivities);
         LocalBroadcastManager.getInstance(this).sendBroadcast(localintent);
 
     }
